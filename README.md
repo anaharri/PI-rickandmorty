@@ -57,22 +57,21 @@ Con tu App podremos:
 
 El backend tendrá los siquientes modelos:
 
-Personaje:
+Character:
 
 - id
 - name
 - image
 
-Category:
+Episode:
 
-- id
 - name
 
-User:
+La relación es de muchos a muchos.
 
-- id
-- name
-- username
-- email
+#### Rutas
 
-La relación de usuario con post es de 1 a n: ya que un mismo usuario puede escribir varios post. La relación de post con categorías es de n a n, ya que un post puede tener varias categorías asociadas y las categorías pueden ser compartidas por varios posts.
+GET /episodes (precarga en la db)
+POST /characters
+GET /characters
+GET /characters/:id
