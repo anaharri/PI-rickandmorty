@@ -24,6 +24,7 @@ npm -v
 ```
 
 ## BoilerPlate
+
 El boilerplate cuenta con dos carpetas: `api` y `client`. En estas carpetas estará el código del back-end y el front-end respectivamente.
 
 En `api` crear un archivo llamado: `.env` que tenga la siguiente forma:
@@ -42,23 +43,25 @@ El contenido de `client` fue creado usando: Create React App.
 
 ## Enunciado
 
-# Redux BLOG APP
-En este ejercicio vamos a crear una APP que utilice la API de [JSONPlaceholder](https://jsonplaceholder.typicode.com/). Vamos a crear nuestra app utilizando **REACT** y **REDUX**.
+# Rick & Morty App
+
+En este ejercicio vamos a crear una APP que utilice la API de [Rick y Morty](https://rickandmortyapi.com//). Vamos a crear nuestra app utilizando **REACT** y **REDUX**.
 
 Con tu App podremos:
 
-- Listar los post del Blog: En la pàgina principal, mostrar solo: -id y -title de los post
-- Al hacer click en cada post: mostrar -body y las categorias asociadas al post.
-- Se debe poder agregar nuevas categorìas a cada post
+- Listar los personajes: En la pàgina principal, mostrar solo: -id y -title de los personajes
+- Al hacer click en cada personaje: mostrar -body y los episodios en los que aparece.
+- Se debe poder agregar nuevos episodios a cada personaje
 
 ### Backend
+
 El backend tendrá los siquientes modelos:
 
-Post:
+Personaje:
 
 - id
-- title
-- body
+- name
+- image
 
 Category:
 
