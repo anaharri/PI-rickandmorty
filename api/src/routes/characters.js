@@ -84,29 +84,43 @@ router.get('/', async (req, res, next) => {
 });
 
 router.post('/', async (req, res, next) => {
-  const { name, image, episodes } = req.body
-
-  try {
-    let character = await Character.create({ name, image })
-    await character.setEpisodes(episodes)
-
-    let charWithEpisodes = await Character.findOne({
-      where: { name: name },
-      attributes: {
-        exclude: ['updatedAt', 'createdAt'],
-      },
-      include: {
-        model: Episode,
-        through: {
-          attributes: [],
-        },
-      },
+  const { name, image, episodes } = req.body;
+  
+  Character.create({
+    name,
+    image,
+  })
+    .then((character) => {
+      return character.setEpisodes(episodes);
     })
+    .then((characterWithEpisodes) => {
+      res.json(characterWithEpisodes);
+    })
+    .catch((err) => next(err));
+//   const { name, image, episodes } = req.body
+// console.log(episodes, 'episodes')
+//   try {
+//     let character = await Character.create({ name, image })
+//     await character.setEpisodes(episodes)
 
-    res.json(charWithEpisodes)
-  } catch (error) {
-    next(error)
-  }
+
+//     let charWithEpisodes = await Character.findOne({
+//       where: { name: name },
+//       attributes: {
+//         exclude: ['updatedAt', 'createdAt'],
+//       },
+//       include: {
+//         model: Episode,
+//         through: {
+//           attributes: [],
+//         },
+//       },
+//     })
+
+//     res.json(charWithEpisodes)
+//   } catch (error) {
+//     next(error)
+//   }
 })
 
 module.exports = router
