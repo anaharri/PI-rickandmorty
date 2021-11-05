@@ -96,7 +96,7 @@ const CreateCharacter = () => {
           <label>Episodes:</label>
           <select onChange={handleSelect} name='episodes'>
             {episodes?.map((episode) => (
-              <option value={episode.id}>{episode.name}</option>
+              <option key={episode.id} value={episode.id}>{episode.name}</option>
             ))}
           </select>
           <button disabled={button} type='submit'>
@@ -104,7 +104,7 @@ const CreateCharacter = () => {
           </button>
         </form>
       </div>
-      
+
       <div className={style.displayContainer}>
         <img
           src={character.image}
@@ -112,27 +112,29 @@ const CreateCharacter = () => {
           style={{ width: '10%' }}
         />
         <div className={style.infoContainer}>
-
-        <h2>Name: {character.name}</h2>
-        <p>
-          Appears on{' '}
-          {character.episodes.length <= 1 ? (
-            <span>episode</span>
-          ) : (
-            <span>episodes</span>
-          )}
-          :
-        </p>
-        <ul>
-          {character.episodes.map((el) => (
-            <div key={el} className={style.li}
-              
-            >
-              <li>{el}</li>
-              <button className={style.deleteButton} onClick={() => filterEpisodes(el)}>x</button>
-            </div>
-          ))}
-        </ul>
+          <h2>Name: {character.name}</h2>
+          <p>
+            Appears on{' '}
+            {character.episodes.length <= 1 ? (
+              <span>episode</span>
+            ) : (
+              <span>episodes</span>
+            )}
+            :
+          </p>
+          <ul>
+            {character.episodes.map((el) => (
+              <div key={el} className={style.li}>
+                <li>⭐ {el}</li>
+                <button
+                  className={style.deleteButton}
+                  onClick={() => filterEpisodes(el)}
+                >
+                  x
+                </button>
+              </div>
+            ))}
+          </ul>
         </div>
       </div>
     </>
