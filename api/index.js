@@ -24,14 +24,18 @@ const axios = require('axios');
 // Syncing all the models at once.
 conn.sync().then(() => {
   server.listen(3001, async () => {
-    const apiEpisodes = await axios.get(
-      'https://rickandmortyapi.com/api/episode',
-    );
-    const allEpisodes = apiEpisodes.data.results.map((episode) => ({
-      name: episode.name,
-    }));
+    let aux = Episode.findAll();
 
-    await Episode.bulkCreate(allEpisodes);
+    if (!aux.length) {
+      const apiEpisodes = await axios.get(
+        'https://rickandmortyapi.com/api/episode',
+      );
+      const allEpisodes = apiEpisodes.data.results.map((episode) => ({
+        name: episode.name,
+      }));
+
+      await Episode.bulkCreate(allEpisodes);
+    }
     console.log('Preloaded episodes.');
     console.log('Listening at 3001'); // eslint-disable-line no-console
   });
