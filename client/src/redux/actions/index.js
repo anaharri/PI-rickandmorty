@@ -1,8 +1,9 @@
 import {
   GET_CHARACTERS,
   GET_EPISODES,
-  POST_CHARACTER,
   GET_CHARACTER_DETAIL,
+  FILTER_ORIGIN,
+  CLEAR_PAGE
 } from './actionTypes';
 import constantes from '../../constantes';
 import axios from 'axios';
@@ -24,3 +25,26 @@ export const getEpisodes = () => {
     return dispatch({ type: GET_EPISODES, payload: episodes.data });
   };
 };
+
+export const filterOrigin = (payload) => {
+  console.log(payload) // all , created , api
+  return {
+    type: FILTER_ORIGIN,
+    payload
+  }
+}
+
+export const getCharacterDetail = (id) => {
+  console.log(id, 'SOY ID DE ACTIONS')
+  return async dispatch => {
+    const character = await axios.get(`${constantes.CHARACTER_URL}${id}`)
+    return dispatch({type: GET_CHARACTER_DETAIL , payload: character.data})
+  }
+}
+
+export const clearPage =() => {
+  return{
+    type: CLEAR_PAGE,
+    
+  }
+}

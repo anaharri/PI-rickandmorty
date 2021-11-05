@@ -2,11 +2,13 @@ import {
   GET_CHARACTER_DETAIL,
   GET_CHARACTERS,
   GET_EPISODES,
-  POST_CHARACTER,
+  FILTER_ORIGIN,
+  CLEAR_PAGE,
 } from '../actions/actionTypes';
 
 const initialState = {
-  characters: [],
+  characters: [], //ESTADO ORIGINAL, NUNCA VA A MUTAR
+  filteredCharacters: [], //ESTADO QUE FILTRAMOS, MUTA
   episodes: [],
   characterDetail: undefined,
 };
@@ -23,6 +25,32 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         episodes: payload,
+      };
+
+    case GET_CHARACTER_DETAIL:
+      console.log(payload, 'SOY PAYLOAD');
+      return {
+        ...state,
+        characterDetail: payload,
+      };
+
+    case FILTER_ORIGIN:
+      const allCharacters = state.characters;
+      const originFilteredCharacters =
+        payload === 'created'
+          ? allCharacters.filter((character) => character.created) //VIENE POR BASE DE DATOS
+          : allCharacters.filter((character) => !character.created); //VIENE DESDE LA API
+
+      return {
+        ...state,
+        filteredCharacters:
+          payload === 'all' ? allCharacters : originFilteredCharacters,
+      };
+
+    case CLEAR_PAGE:
+      return {
+        ...state,
+        characterDetail: undefined,
       };
 
     default:

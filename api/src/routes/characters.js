@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { Character } = require('../db');
+const { Character , Episode} = require('../db');
 const axios = require('axios');
 const router = Router();
 
@@ -10,12 +10,12 @@ router.get('/:id', async (req, res, next) => {
   try {
     if (id.includes('-')) {
       character = await Character.findByPk(id, { include: Episode })
-
+      console.log(character)
       character = {
         id: character.id,
         name: character.name,
         image: character.image,
-        episodes: character.Episodes.map((episode) => {
+        episodes: character.episodes.map((episode) => {
           return {
             id: episode.id,
             name: episode.name,
@@ -59,6 +59,10 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
+  
+  // const {name} = req.query
+  //buscar en el endpoint de la api el personaje que nos viene por queryf
+  
   let apiCharacters;
   let dbCharacters;
 

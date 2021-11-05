@@ -13,6 +13,7 @@ const NavBar = () => {
           <Link to='/home'>HOME</Link>
         </li>
       </ul>
+      <input type="search" placeholder="Search character..."/>
       <ul>
         <li>
           <Link to='/createCharacter'>CREATE CHARACTER</Link>

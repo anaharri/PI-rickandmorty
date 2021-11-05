@@ -1,8 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import NavBar from '../components/NavBar';
 import constantes from '../constantes';
+import { getCharacters } from '../redux/actions';
 import style from './CreateCharacter.module.css';
 
 const CreateCharacter = () => {
@@ -14,9 +15,12 @@ const CreateCharacter = () => {
 
         */
 
+  const dispatch = useDispatch()
   const episodes = useSelector((state) => state.episodes);
 
   const [button, setButton] = useState(true);
+
+
   const [character, setCharacter] = useState({
     name: '',
     image: '',
@@ -46,33 +50,37 @@ const CreateCharacter = () => {
 
     setCharacter({
       ...character,
-      episodes: [...character.episodes, episodeId],
+      episodes: Array.from(new Set([...character.episodes, episodeId]))
     });
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post(`${constantes.CHARACTER_URL}`, character);
-    setCharacter({
-      name: '',
-      image: '',
-      episodes: [],
-    });
-  };
+  
 
   const filterEpisodes = (id) => {
-    console.log(id);
     let filteredEpisodes = character.episodes.filter(
       (episode) => episode !== id,
     );
+    
     setCharacter({
       ...character,
       episodes: filteredEpisodes,
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post(`${constantes.CHARACTER_URL}`, character);
+    
+    
+    setCharacter({
+      name: '',
+      image: '',
+      episodes: [],
+    });
+    dispatch(getCharacters())
+  };
+
   return (
-    <>
+    <div className={style.container}>
       <NavBar />
       <div className={style.mainContainer}>
         <h1>Create your character</h1>
@@ -95,8 +103,11 @@ const CreateCharacter = () => {
 
           <label>Episodes:</label>
           <select onChange={handleSelect} name='episodes'>
+            <option defaultValue disabled selected>Select episode</option>
             {episodes?.map((episode) => (
-              <option key={episode.id} value={episode.id}>{episode.name}</option>
+              <option key={episode.id} value={episode.id}>
+                {episode.name}
+              </option>
             ))}
           </select>
           <button disabled={button} type='submit'>
@@ -105,39 +116,41 @@ const CreateCharacter = () => {
         </form>
       </div>
 
-      <div className={style.displayContainer}>
-        <img
-          src={character.image}
-          alt={character.name}
-          style={{ width: '10%' }}
-        />
-        <div className={style.infoContainer}>
-          <h2>Name: {character.name}</h2>
-          <p>
-            Appears on{' '}
-            {character.episodes.length <= 1 ? (
-              <span>episode</span>
-            ) : (
-              <span>episodes</span>
-            )}
-            :
-          </p>
-          <ul>
-            {character.episodes.map((el) => (
-              <div key={el} className={style.li}>
-                <li>⭐ {el}</li>
-                <button
-                  className={style.deleteButton}
-                  onClick={() => filterEpisodes(el)}
-                >
-                  x
-                </button>
-              </div>
-            ))}
-          </ul>
+      {(character.name || character.image || character.episodes.length > 0) && (
+        <div className={style.displayContainer}>
+          <img
+            src={character.image}
+            alt={character.name}
+            style={{ width: '50%' }}
+          />
+          <div className={style.infoContainer}>
+            <h2>Name: {character.name}</h2>
+            <p>
+              Appears on{' '}
+              {character.episodes.length <= 1 ? (
+                <span>episode</span>
+              ) : (
+                <span>episodes</span>
+              )}
+              :
+            </p>
+            <ul>
+              {character.episodes.map((el) => (
+                <div key={el} className={style.li}>
+                  <li>⭐ {el}</li>
+                  <button
+                    className={style.deleteButton}
+                    onClick={() => filterEpisodes(el)}
+                  >
+                    x
+                  </button>
+                </div>
+              ))}
+            </ul>
+          </div>
         </div>
-      </div>
-    </>
+      )}
+    </div>
   );
 };
 

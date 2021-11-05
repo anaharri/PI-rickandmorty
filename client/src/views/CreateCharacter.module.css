@@ -38,24 +38,36 @@ select {
   padding: 0px 10px;
   margin: 10px 0px;
 }
+.container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 0px;
+  margin: 0px;
+  gap: 1rem;
+}
 
 .displayContainer {
-/* make a centered card that has display flex row  */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    width: 30%;
+    height: max-content;
     padding: 0px;
     margin: 0px;
     gap: 1rem;
     margin-top: 5rem;
+    border:1px solid #ccc;
+    box-shadow: 0px 5px 10px 4px #ccc;
+    background-color: #fff;
+    border-radius: 5px;
 }
 
 .deleteButton {
-  /* make a delete button with rick and morty styles */
-  background-color: #ff0000;
   border: none;
   color: white;
   padding: 15px 10px;
